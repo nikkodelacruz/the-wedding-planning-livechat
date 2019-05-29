@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: The Wedding Planning Livachat App
- * Plugin URI: https://nikkodelacruz.github.io
+ * Plugin URI: https://github.com/nikkodelacruz/the-wedding-planning-livechat
  * Description: Wordpress live chat with nodejs and socket.io integration
  * Version: 1.0.0
  * Author: Nikko Dela Cruz
