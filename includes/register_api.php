@@ -1,7 +1,7 @@
 <?php 
  /**
  * Register Rest API routes
- * @package SocketLiveChat
+ * @package TheWeddingPlanningLivechat
  */
 defined( 'ABSPATH' ) || exit;
 

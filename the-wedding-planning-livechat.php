@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name: Socket Live Chat
+ * Plugin Name: The Wedding Planning Livachat App
  * Plugin URI: https://nikkodelacruz.github.io
- * Description: Wordpress live chat with socket.io integration
+ * Description: Wordpress live chat with nodejs and socket.io integration
  * Version: 1.0.0
  * Author: Nikko Dela Cruz
  * Author URI: https://nikkodelacruz.github.io
- * Text Domain: socket-live-chat
+ * Text Domain: the-wedding-planning-livechat
  *
- * @package SocketLiveChat
+ * @package TheWeddingPlanningLivechat
  */
 
 
@@ -16,11 +16,11 @@ if ( ! defined('ABSPATH') ) {
 	die();  // Exit if accessed directly.
 }
 
-if ( !class_exists('SocketLiveChat') ) {	
+if ( !class_exists('TheWeddingPlanningLivechat') ) {	
 	/**
 	 * Main Class
 	 */
-	class SocketLiveChat
+	class TheWeddingPlanningLivechat
 	{
 
 		public $dirname;
@@ -60,12 +60,6 @@ if ( !class_exists('SocketLiveChat') ) {
 
 			add_action( 'rest_api_init', array($this,'register_api_routes') ); // initialize Rest API
 
-			add_action( 'wp_footer', array($this,'add_footer') );
-
-	    }
-
-	    public function add_footer(){
-	    	// echo '<audio class="sound-notif" src="'.get_field('sound_notification','option').'"></audio>';
 	    }
 
 
@@ -179,17 +173,17 @@ if ( !class_exists('SocketLiveChat') ) {
 
 
 	// Instantiate
-	$socketLiveChat = new SocketLiveChat();
-	// $socketLiveChat->register(); //call method inside class
+	$theWeddingPlanningLivechat = new TheWeddingPlanningLivechat();
+	// $theWeddingPlanningLivechat->register(); //call method inside class
 
 	// Activate Plugin
-	register_activation_hook( __FILE__, array($socketLiveChat,'activate') );
+	register_activation_hook( __FILE__, array($theWeddingPlanningLivechat,'activate') );
 
 	// Deactivate Plugin
-	register_deactivation_hook( __FILE__, array($socketLiveChat,'deactivate') );
+	register_deactivation_hook( __FILE__, array($theWeddingPlanningLivechat,'deactivate') );
 
 	// Uninstall
-	register_uninstall_hook( __FILE__, array($socketLiveChat,'uninstall') );
+	register_uninstall_hook( __FILE__, array($theWeddingPlanningLivechat,'uninstall') );
 
 }
 

@@ -1,7 +1,7 @@
 <?php 
  /**
  * Add admin pages and subpages in the backend
- * @package SocketLiveChat
+ * @package TheWeddingPlanningLivechat
  */
 
 

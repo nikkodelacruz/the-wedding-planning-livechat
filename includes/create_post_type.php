@@ -1,7 +1,7 @@
 <?php 
 /**
  * Create post type
- * @package SocketLiveChat
+ * @package TheWeddingPlanningLivechat
  */
 
 defined( 'ABSPATH' ) || exit;

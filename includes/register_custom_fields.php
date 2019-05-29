@@ -1,7 +1,7 @@
 <?php 
 /**
  * Register custom fields for paypal API
- * @package PaypalParallelPayment
+ * @package TheWeddingPlanningLivechat
  */
 
 defined( 'ABSPATH' ) || exit;

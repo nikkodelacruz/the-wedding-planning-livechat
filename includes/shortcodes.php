@@ -1,7 +1,7 @@
 <?php 
  /**
  * Shortcode
- * @package SocketLiveChat
+ * @package TheWeddingPlanningLivechat
  */
 
 // Chatbox popup

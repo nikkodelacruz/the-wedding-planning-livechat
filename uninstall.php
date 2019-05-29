@@ -3,7 +3,7 @@
 /**
  * Trigger this file on Plugin uninstall
  *
- * @package PaypalParallelPayment
+ * @package TheWeddingPlanningLivechat
  */
 
 
