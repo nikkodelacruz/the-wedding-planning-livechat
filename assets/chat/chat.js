@@ -388,9 +388,7 @@
 
 
 	$(document).ready( function(){
-
 		$('ul.messenger-container__users li.active a').trigger('click');
-
 	});
 
 	
@@ -416,11 +414,9 @@
 		if ( user_role == 'customer' ) {
 			sup_id = receiver_id;
 			cus_id = user_id;
-			var id = $('input[name="socket_receiver_id"]').val();
 		} else if ( user_role == 'supplier' ) {
 			sup_id = user_id;
 			cus_id = receiver_id;
-			var id = $('input[name="socket_receiver_id"]').val();
 		}
 
     	var data = {
@@ -438,7 +434,6 @@
     /* Append message to container for customer and supplier */
     socket.on('display message',function(data){
 
-
 	    // console.log(data);
 		var customer_id = data.customer_id;
     	var supplier_id = data.supplier_id;
@@ -446,16 +441,6 @@
     	var sender_id = data.sender_id;
 
 		if( user_id == supplier_id || user_id == customer_id ){
-
-			// if ( user_id == supplier_id ) {
-		 //    	var receiver_id = $('input[name="socket_receiver_id"]').val();
-			// 	alert(receiver_id);
-			// }else if( user_id == customer_id ){
-		 //    	var receiver_id = $('input[name="socket_receiver_id"]').val();
-			// 	alert(receiver_id);
-
-			// }
-			
 
 			if(user_id == sender_id){
 				var you = 'You: ';
@@ -478,7 +463,6 @@
 
     /* Get message for every send of user */
     socket.on('get message', function(data){
-
 
     	var customer_id = data.customer_id;
     	var supplier_id = data.supplier_id;

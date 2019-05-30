@@ -65,8 +65,8 @@ if ( !class_exists('TheWeddingPlanningLivechat') ) {
 
 	    // Add additional info in the plugin
 	    public function settings_link( $links ){
-	    	$view_link = '<a href="edit.php?post_type=transaction-history">Edit</a>';
-	    	$settings_link = '<a href="edit.php?post_type=transaction-history&page=paypal-settings">Settings</a>';
+	    	$view_link = '<a href="edit.php?post_type=messages-list&page=acf-options-message-settings">Edit</a>';
+	    	$settings_link = '<a href="edit.php?post_type=messages-list&page=acf-options-message-settings">Settings</a>';
 	    	array_push( $links, $view_link, $settings_link );
 	    	return $links;
 	    }

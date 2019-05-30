@@ -103,6 +103,10 @@
 .chat-container ::-webkit-scrollbar-thumb:hover {
   background: #be7872;
 }
+
+
+/* Message Box */
+
 .messenger-container ul.messenger-container__users {
   background: #282828;
   color: #fff;
@@ -110,6 +114,8 @@
   margin: 0;
   list-style: none;
   height: 100%;
+  overflow-y: auto;
+  max-height: 600px;
 }
 .messenger-container ul.messenger-container__users > li {
   transition: 0.5s;
@@ -198,22 +204,26 @@ ul.messenger-container__conversation li.start-conversation-label{
 /*Scollbar style*/
 
 /* width */
+ul.messenger-container__users::-webkit-scrollbar,
 ul.messenger-container__conversation::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
+ul.messenger-container__users::-webkit-scrollbar-track,
 ul.messenger-container__conversation::-webkit-scrollbar-track {
   background: #282828; 
 }
 
 /* Handle */
+ul.messenger-container__users::-webkit-scrollbar-thumb,
 ul.messenger-container__conversation::-webkit-scrollbar-thumb {
   background: #D6908A;
   border-radius: 20px;
 }
 
 /* Handle on hover */
+ul.messenger-container__users::-webkit-scrollbar-thumb:hover,
 ul.messenger-container__conversation::-webkit-scrollbar-thumb:hover {
   background: #d6b4b1; 
 }

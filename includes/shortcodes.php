@@ -47,8 +47,9 @@ add_shortcode( 'socket_chat_box', 'socket_chat_box' );
 function socket_chat_message(){
     ob_start();
 
-    if (!is_user_logged_in()) {
-    	wp_die( 'Please login your account' );
+    if ( !is_user_logged_in() || current_user_can('administrator') ) {
+    	return false;
+    	// wp_die( 'Please login your account' );
     }
 
     /**
@@ -166,7 +167,7 @@ function socket_chat_message(){
 						<li class="media <?php echo $active; ?>">
 							<a href="#" class="socket-open-message media">
 								<input type="hidden" name="receiver_id" value="<?php echo $id; ?>">
-								<input type="hidden" name="room" value="<?php echo $title; ?>">
+								<input type="hidden" name="room" value="room<?php echo $pid; ?>">
 								<img src="<?php echo $profile; ?>" />
 								<div class="media-body ml-2">
 									<span class="message--date_time float-right">10:30 AM</span>
@@ -201,7 +202,7 @@ function socket_chat_message(){
 						<li class="start-conversation-label"><h3>Start your conversation today</h3></li>
 					</ul>
 					<div class="send-message-container d-none">
-						<input type="hidden" name="socket_receiver_id"> <!-- person to receive the message -->
+						<input type="hidden" name="socket_receiver_id" data-id="<?php echo $user_id; ?>"> <!-- person to receive the message -->
 						<input type="hidden" name="socket_room"> <!-- room to join -->
 						<input type="text" class="form-control send-message-txt" placeholder="Type a message...">
 		    			<div class="d-block text-right mt-2">
