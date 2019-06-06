@@ -277,6 +277,7 @@
 	var user_name = udata.name;
 	var send_message_api = udata.send_message_api;
 	var get_all_messages_api = udata.get_all_messages_api;
+	var seen_message_api = udata.seen_message_api;
 
 	/*==============*/
     /* Message Page */
@@ -457,6 +458,31 @@
 			}
 			$(".message--recent_message[data-id='"+customer_id+"']").html('<strong>'+you+str+el+'</strong>');
 			$(".message--recent_message[data-id='"+supplier_id+"']").html('<strong>'+you+str+el+'</strong>');
+
+			if(data){
+				var receiver_id = $('input[name="socket_receiver_id"]').val();
+				var post_id = $('input[name="socket_room"]').val();
+				var seen_by = '';
+				if ( user_role == 'customer' && receiver_id == supplier_id) {
+					// alert('customer seen');
+					setTimeout(function(){
+						socket.emit('seen message', {
+							api : seen_message_api+'/'+post_id+'/customer'
+						});
+					},1000);
+				}
+				if ( user_role == 'supplier' && receiver_id == customer_id) {
+					// alert('supplier seen');
+					setTimeout(function(){
+						socket.emit('seen message', {
+							api : seen_message_api+'/'+post_id+'/supplier'
+						});
+					},1000);
+
+				}
+			}
+
+
 		}
 
     });
@@ -472,6 +498,7 @@
 
 		// Send message between 2 users only
 		if( receiver_id == supplier_id || receiver_id == customer_id ){
+
 			// Check if sender is the loggedin user
 			var align = "";
 			if( user_id == sender_id ){
@@ -486,8 +513,13 @@
 					<div class="message-aligner">`+message+`</div>
 				</li>`
 			);
+
+			
+
 		}
 	});
+
+
 
 
 	

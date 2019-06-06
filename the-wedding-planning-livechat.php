@@ -107,7 +107,8 @@ if ( !class_exists('TheWeddingPlanningLivechat') ) {
 	            'profile' => $profile,
 	            'name' => $ufname.' '.$ulname,
 	            'send_message_api' => home_url('/wp-json/livechat/v1/send_message'),
-	            'get_all_messages_api' => home_url('/wp-json/livechat/v1/get_all_messages')
+	            'get_all_messages_api' => home_url('/wp-json/livechat/v1/get_all_messages'),
+	            'seen_message_api' => home_url('/wp-json/livechat/v1/seen_message')
 	        );
 			wp_enqueue_script('jquery');
 	    	wp_enqueue_script( 'chat-js', plugins_url( '/assets/chat/chat.js',__FILE__ ) );

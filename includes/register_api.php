@@ -5,7 +5,7 @@
  */
 defined( 'ABSPATH' ) || exit;
 
- class RegisterSocketAPI{
+class RegisterSocketAPI{
 	
  	public function __construct(){
 
@@ -57,6 +57,12 @@ defined( 'ABSPATH' ) || exit;
 				)
 			)
 		) );
+
+		// Seen message
+		register_rest_route( $route, '/seen_message/(?P<post_id>[0-9]+)/(?P<seen>[a-z]+)', array(
+			'methods' => 'GET',
+			'callback' => array($this,'seen_message'),
+		));
  	}
 
 
@@ -102,6 +108,11 @@ defined( 'ABSPATH' ) || exit;
 			update_field('customer_id', $customer_id, $post_id);
 		}
 
+		// Update seen field
+		update_field('supplier_message_seen', false, $post_id);
+		update_field('customer_message_seen', false, $post_id);
+
+		// Add every conversation to row
 		$rows = array(
 			'conversation_date_and_time' => $date,
 			'conversation_user_id' => $id,
@@ -175,6 +186,27 @@ defined( 'ABSPATH' ) || exit;
 
 		return $response;
 
+	}
+
+	/* Seen message */
+	public function seen_message( $request ){
+		$post_id = $request->get_param('post_id');
+		$seen = $request->get_param('seen');
+
+		if($seen == 'customer'){
+			update_field('customer_message_seen', true, $post_id);
+		}else{
+			update_field('supplier_message_seen', true, $post_id);
+		}
+
+		$message = array(
+			'post_id' => $post_id,
+			'seen' => $seen
+		);
+
+		$response = wp_send_json_success($message);
+
+		return $response;
 	}
 
 

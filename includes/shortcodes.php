@@ -130,11 +130,11 @@ function socket_chat_message(){
 
 	?>
 
-	<div class="container-fluid mt-5 mb-5">
+	<div class="container-fluid m-4">
 		<div class="messenger-container">
 			<div class="row">
 
-				<div class="col-md-3 pr-sm-0 ">
+				<div class="col-md-3 p-0 ">
 					<ul class="messenger-container__users">
 					<?php
 					foreach ($posts as $post) {
@@ -167,7 +167,7 @@ function socket_chat_message(){
 						<li class="media <?php echo $active; ?>">
 							<a href="#" class="socket-open-message media">
 								<input type="hidden" name="receiver_id" value="<?php echo $id; ?>">
-								<input type="hidden" name="room" value="room<?php echo $pid; ?>">
+								<input type="hidden" name="room" value="<?php echo $pid; ?>">
 								<img src="<?php echo $profile; ?>" />
 								<div class="media-body ml-2">
 									<span class="message--date_time float-right">10:30 AM</span>
@@ -197,7 +197,7 @@ function socket_chat_message(){
 					</ul>
 				</div>
 
-				<div class="col-md-6 pl-sm-0">
+				<div class="col-md-9 p-0">
 					<ul class="messenger-container__conversation">
 						<li class="start-conversation-label"><h3>Start your conversation today</h3></li>
 					</ul>
@@ -210,8 +210,6 @@ function socket_chat_message(){
 		    			</div>
 					</div>
 				</div>
-
-				<div class="col-md-3"></div>
 
 			</div>
 		</div>
@@ -247,11 +245,130 @@ add_shortcode( 'socket_supplier_id', 'socket_supplier_id' );
 
 function socket_message_notification(){
 	ob_start();
+
+	$udata = wp_get_current_user();
+	$user_id = $udata->ID;
+    $role = $udata->roles[0];
+
+    if ($role == 'customer') {
+    	$meta_query = array(
+			'key' => 'customer_id',
+			'value' => $user_id,
+			'compare' => '=',
+		);
+
+		$notif_query = array(
+			'key' => 'customer_message_seen',
+			'value' => false,
+			'compare' => '='
+		);
+
+    }elseif ($role == 'supplier') {
+    	$meta_query = array(
+			'key' => 'supplier_id',
+			'value' => $user_id,
+			'compare' => '=',
+		);
+
+		$notif_query = array(
+			'key' => 'supplier_message_seen',
+			'value' => false,
+			'compare' => '='
+		);
+    }
+
+    $notifs = get_posts( array(
+		'post_type' => 'messages-list',
+		'meta_query' => array( 
+			'relation' => 'AND',
+			$meta_query,
+			$notif_query
+		)
+	) );
+
+	$posts = get_posts( array(
+		'post_type' => 'messages-list',
+		'meta_query' => array( $meta_query )
+	) );
 	?>
 
-	<a href="">
-		<i class="far fa-envelope"></i>
-	</a>
+	<ul class="notifications">
+		<li>	
+			<a href="<?php echo home_url( 'messages' ); ?>">
+				<i class="far fa-envelope"></i>
+				<?php if($notifs): ?>
+					<span class="notif-count"><?php echo count($notifs); ?></span>
+				<?php endif; ?>
+			</a>
+
+			<div class="message-notification-container">
+				<div class="notif-arrow"></div>
+				<div class="notif-header">Messages</div>
+				<ul class="message-notification__list">
+
+					<?php 
+
+					if ($posts) {
+						
+						foreach ($posts as $post) {
+							$pid = $post->ID;
+							$title = get_the_title( $pid );
+							$conversations = get_field('conversation', $pid);
+
+							
+							if ($conversations) {
+								$conversations = end($conversations); // get latest message
+								$conversation_message = $conversations['conversation_message'];
+								$conversation_date_time = $conversations['conversation_date_and_time'];
+								$conversation_userid = $conversations['conversation_user_id'];
+							}
+
+							if($role == 'supplier'){
+								$id = get_field('customer_id', $pid);
+								$seen = get_field('supplier_message_seen', $pid);
+							}elseif($role == 'customer'){
+								$id = get_field('supplier_id', $pid);
+								$seen = get_field('customer_message_seen', $pid);
+							}
+							
+							$u_data = get_userdata($id);
+							$name = $u_data->first_name.' '.$u_data->last_name;
+					        $profile = get_field('profile_picture', 'user_'.$id);
+					        $profile = ($profile) ? $profile : get_field('no_profile_placeholder','option');
+
+							$unread = (!$seen) ? 'unread' : '' ;
+
+							echo '<li class="'.$unread.'"><a href="" class="media">';
+							echo '<img src="'.$profile.'" />';
+							echo '<div class="media-body ml-2">';
+							echo '<span class="d-block font-weight-bold">'.$name.'</span>';
+							echo '<small class="d-block">'.$conversation_date_time.'</small>';
+
+							// Trim message and add ellipsis
+							$length = strlen($conversation_message);
+							if( $length <= 10 ){
+								echo $conversation_message;
+							}else{
+								echo substr( $conversation_message, 0, 10 ).'...'; 
+							}
+							echo '</div>';
+							echo '</a></li>';
+
+
+						}
+					}else{
+						echo '<li>No messages found</li>';
+					}
+
+					?>
+
+				</ul>
+				<div class="notif-footer"><a href="<?php echo home_url( 'messages' ); ?>">See all</a></div>
+			</div>
+
+		</li>
+	</ul>
+
 
 	
 	<?php
