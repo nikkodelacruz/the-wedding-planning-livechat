@@ -343,6 +343,7 @@
 			method : 'GET',
 			dataType : 'json',
 			data : {
+				user_role : user_role,
 				supplier_id : sup_id,
 		      	customer_id : cus_id,
 			},
@@ -390,6 +391,18 @@
 
 	$(document).ready( function(){
 		$('ul.messenger-container__users li.active a').trigger('click');
+
+		var user_list = $('ul.messenger-container__users').has("li").length;
+		var h3 = $('ul.messenger-container__users').has("h3").length;
+		if( !user_list && !h3 ){
+			$('ul.messenger-container__users').append('<h3 class="d-flex m-0 align-items-center justify-content-center h-100 pt-5 pb-5 px-4">No Conversations Found</h3>');
+		}
+
+		var motif_list = $('ul.message-notification__list').has("li").length;
+		if( !motif_list ){
+			$('ul.message-notification__list').append('<li class="text-center">No messages found</li>');
+		}
+
 	});
 
 	
@@ -513,8 +526,6 @@
 					<div class="message-aligner">`+message+`</div>
 				</li>`
 			);
-
-			
 
 		}
 	});

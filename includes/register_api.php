@@ -137,6 +137,7 @@ class RegisterSocketAPI{
 
 	/* Get conversation of 2 users */
 	public function get_all_messages( $request ){
+		$user_role = $request->get_param('user_role');
 		$supplier_id = $request->get_param('supplier_id');
 		$customer_id = $request->get_param('customer_id');
 
@@ -160,6 +161,14 @@ class RegisterSocketAPI{
 		if ($posts) {
 			$post_id = $posts[0];
 			$conversations = get_field('conversation', $post_id);
+
+			if ($user_role =='customer') {
+				update_field('customer_message_seen', true, $post_id);
+			}
+			elseif ($user_role =='supplier') {
+				update_field('supplier_message_seen', true, $post_id);
+			}
+
 			$messages = array();
 			if ($conversations) {
 				foreach ($conversations as $conv) {
@@ -179,7 +188,11 @@ class RegisterSocketAPI{
 					);
 				}
 			}
+
+		
+
 			$response = wp_send_json_success( $messages );
+
 		} else {
 			$response = wp_send_json_error();
 		}
