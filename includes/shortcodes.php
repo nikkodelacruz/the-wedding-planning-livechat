@@ -43,7 +43,7 @@ function socket_chat_box(){
 }
 add_shortcode( 'socket_chat_box', 'socket_chat_box' );
 
-// Get all messages
+// Add new message and get all conversations
 function socket_chat_message(){
     ob_start();
 
@@ -60,6 +60,7 @@ function socket_chat_message(){
 	$role = $udata->roles[0];
 
     if( isset($_GET['key']) && ($role == 'customer' || $role == 'supplier') ){
+    	// Encrypt key
     	$key = $_GET['key'];
     	$key = urldecode($key);
     	$key = base64_decode($key);
@@ -71,6 +72,9 @@ function socket_chat_message(){
 	    	$supplier_id = $key->supplier_id;
 	    	$customer_id = $key->customer_id;
 
+	    	/**
+	    	 * Get messages from customer and supplier
+	    	 */
 	    	$posts = get_posts( array(
 				'post_type' => 'messages-list',
 				'meta_query' => array(
@@ -98,7 +102,7 @@ function socket_chat_message(){
 				) );
 				update_field('supplier_id', $supplier_id, $post_id);
 				update_field('customer_id', $customer_id, $post_id);
-				update_field('supplier_message_seen', true, $post_id);
+				update_field('supplier_message_seen', true, $post_id); //set to read
 				update_field('customer_message_seen', true, $post_id);
 
 			}else{
@@ -186,6 +190,7 @@ function socket_chat_message(){
 							if(
 								$role == 'customer' && !$conversations || 
 								$role == 'customer' && $conversations || 
+								$role == 'supplier' && !$conversations ||
 								$role == 'supplier' && $conversations 
 							){
 
@@ -254,34 +259,6 @@ function socket_chat_message(){
 }
 add_shortcode( 'socket_chat_message', 'socket_chat_message' );
 
-// Create new message for supplier(redirect to message page)
-function socket_supplier_id( $atts ){
-	ob_Start();
-
-	// customer id
-	$udata = wp_get_current_user();
-	$user_id = $udata->ID;
-	
-	// supplier id
-	$id = $atts['id'];
-	$text = $atts['button_text'];
-
-	$url = array(
-		'supplier_id' => $id,
-		'customer_id' => $user_id,
-		'auth' => 'the-wedding'
-	);
-	$url = wp_json_encode( $url);
-	$url =base64_encode($url);
-	$url = urlencode($url);
-	$link = home_url( 'message' ).'?key='.$url;
-	?>
-	<a href="<?php echo $link; ?>"><?php echo $text; ?></a>
-	<?php
-
-	return ob_get_clean();
-}
-add_shortcode( 'socket_supplier_id', 'socket_supplier_id' );
 
 // Message notification
 function socket_message_notification(){
@@ -441,3 +418,62 @@ function socket_message_notification(){
 	return ob_get_clean();
 }
 add_shortcode( 'socket_message_notification', 'socket_message_notification' );
+
+
+// Create new message for supplier (redirect to message page)
+function socket_supplier_id( $atts ){
+	ob_Start();
+
+	// customer id
+	$udata = wp_get_current_user();
+	$user_id = $udata->ID;
+	
+	// supplier id
+	$id = $atts['id'];
+	$text = $atts['button_text'];
+
+	$url = array(
+		'supplier_id' => $id,
+		'customer_id' => $user_id,
+		'auth' => 'the-wedding'
+	);
+	$url = wp_json_encode( $url);
+	$url =base64_encode($url);
+	$url = urlencode($url);
+	$link = home_url( 'message' ).'?key='.$url;
+	?>
+	<a href="<?php echo $link; ?>"><?php echo $text; ?></a>
+	<?php
+
+	return ob_get_clean();
+}
+add_shortcode( 'socket_supplier_id', 'socket_supplier_id' );
+
+// Create new message for customer (redirect to message page)
+function socket_customer_id( $atts ){
+	ob_Start();
+
+	// customer id
+	$udata = wp_get_current_user();
+	$user_id = $udata->ID;
+	
+	// customer id
+	$id = $atts['id'];
+	$text = $atts['button_text'];
+
+	$url = array(
+		'customer_id' => $id,
+		'supplier_id' => $user_id,
+		'auth' => 'the-wedding'
+	);
+	$url = wp_json_encode( $url);
+	$url =base64_encode($url);
+	$url = urlencode($url);
+	$link = home_url( 'message' ).'?key='.$url;
+	?>
+	<a href="<?php echo $link; ?>"><?php echo $text; ?></a>
+	<?php
+
+	return ob_get_clean();
+}
+add_shortcode( 'socket_customer_id', 'socket_customer_id' );
