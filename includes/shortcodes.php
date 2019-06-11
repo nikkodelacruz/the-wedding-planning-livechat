@@ -140,10 +140,17 @@ function socket_chat_message(){
 		'meta_query' => array( $meta )
 	) );
 
+
+	$dark_mode = get_field('dark_mode','option');
+	$color = '';
+	if( $dark_mode ){
+		$color = 'dark-mode';
+	}
+
 	?>
 
 	<div class="container-fluid m-4">
-		<div class="messenger-container">
+		<div class="messenger-container <?php echo $color; ?>">
 			<div class="row">
 
 				<div class="col-md-3 p-0 ">
@@ -247,7 +254,7 @@ function socket_chat_message(){
 }
 add_shortcode( 'socket_chat_message', 'socket_chat_message' );
 
-// create message -> customer shop page 
+// Create new message for supplier(redirect to message page)
 function socket_supplier_id( $atts ){
 	ob_Start();
 
@@ -332,7 +339,7 @@ function socket_message_notification(){
 	?>
 
 	<?php if ( $display_notif ): ?>
-		
+
 		<ul class="notifications <?php echo $dnone; ?>">
 			<li>	
 				<a href="<?php echo home_url( 'messages' ); ?>">

@@ -1,17 +1,17 @@
 <?php 
 /**
- * Create post type
+ * Create post type for messages
  * @package TheWeddingPlanningLivechat
  */
 
 defined( 'ABSPATH' ) || exit;
 
-// final class CreatePostType
-// {
-// 	public static function create_post_type()
-// 	{
+class MessagesPostType
+{
+	public static function create_post_type()
+	{
 
-		// Mesaages post type
+		// Messages post type
 		register_post_type(
 			'messages-list',
 			[
@@ -22,8 +22,7 @@ defined( 'ABSPATH' ) || exit;
 			]
 		);
 
-
-// 	}
-// }
+	}
+}
 
 

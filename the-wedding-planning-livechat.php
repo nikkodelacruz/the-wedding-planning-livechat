@@ -52,12 +52,9 @@ if ( !class_exists('TheWeddingPlanningLivechat') ) {
 	        add_action( 'init', array($this,'shortcodes') ); // shortcodes
 
 	        // Ajax action
-	        // add_action( 'admin_init', array($this,'ajax_requests') );
-	         // add_action( 'wp_ajax_my_action', array($this,'my_action') );
+	        add_action( 'init', array($this,'admin_ajax_requests') );
 
-	        // add_action( 'wp_ajax_nopriv_my_action', array($this,'my_action') );
 			add_action( 'wp_print_scripts', array($this,'global_js_var') ); // declare global script
-
 			add_action( 'rest_api_init', array($this,'register_api_routes') ); // initialize Rest API
 
 	    }
@@ -118,17 +115,45 @@ if ( !class_exists('TheWeddingPlanningLivechat') ) {
 
 	    public function enqueue_backend()
 	    {
-	    	wp_enqueue_style( 'backend-style', plugins_url( '/assets/backend/styles.css',__FILE__ ) );
+
+	    	// jPages
+	    	// wp_enqueue_style( 'jpages-animate', plugins_url( '/assets/vendors/jPages/css/animate.css',__FILE__ ) );
+	    	// wp_enqueue_style( 'jpages-css', plugins_url( '/assets/vendors/jPages/css/jPages.css',__FILE__ ) );
+	    	// wp_enqueue_script( 'jpages-js', plugins_url( '/assets/vendors/jPages/js/jPages.min.js',__FILE__ ) );
+
+	    	// Enqueue only on messages post type
+			$screen = get_current_screen();
+			if (
+				$screen->id == 'messages-list_page_conversation-list'
+			) {		
+
+		    	// wp_enqueue_script( 'asd-js', plugins_url( '/assets/vendors/MDB/js/jquery-3.4.1.min.js',__FILE__ ) );
+
+		    	// Materiaize
+		    	wp_enqueue_style( 'materialize-css', plugins_url( '/assets/vendors/materialize/css/materialize.min.css',__FILE__ ) );
+		    	wp_enqueue_script( 'materialize-js', plugins_url( '/assets/vendors/materialize/js/materialize.min.js',__FILE__ ) );
+
+		    	// MDB Table
+		    	wp_enqueue_style( 'mdb1-css', plugins_url( '/assets/vendors/MDB/css/mdb.min.css',__FILE__ ) );
+
+		    	wp_enqueue_script( 'mdb1-js', plugins_url( '/assets/vendors/MDB/js/mdb.min.js',__FILE__ ) );
+
+		    	wp_enqueue_style( 'mdb-css', plugins_url( '/assets/vendors/MDB/css/addons/datatables.min.css',__FILE__ ) );
+		    	wp_enqueue_script( 'mdb-js', plugins_url( '/assets/vendors/MDB/js/addons/datatables.min.js',__FILE__ ) );
+			}
+
+	    	wp_enqueue_style( 'backend-style', plugins_url( '/assets/backend/style.css',__FILE__ ) );
 	    	wp_enqueue_script( 'backend-script', plugins_url( '/assets/backend/script.js',__FILE__ ) );
 
-	    	// AJAX
-	    	wp_enqueue_script( 'ajax-script', plugins_url( '/assets/ajax/ajax.js',__FILE__ ) );
-	    	wp_localize_script( 'ajax-script', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+	    	// Backend AJAX
+	    	wp_enqueue_script( 'backend-ajax', plugins_url( '/assets/backend/ajax/ajax.js',__FILE__ ) );
+	    	wp_localize_script( 'backend-ajax', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) ); //ajax_object.ajax_url
+	    
 	    }
 
 	    public function create_post_type(){
 	    	include_once $this->dirname.'/includes/create_post_type.php';
-	    	// CreatePostType::create_post_type(); //call static method w/o initialize
+	    	MessagesPostType::create_post_type(); //call static method w/o initialize
 	    }
 
 	   	public function register_custom_fields()
@@ -137,11 +162,12 @@ if ( !class_exists('TheWeddingPlanningLivechat') ) {
 	    	// RegisterCustomFelds::register_custom_fields();
 	   	}
 
-	   	private function ajax_requests()
+	   	public function admin_ajax_requests()
 	   	{
-	   		// include_once $this->dirname.'/assets/ajax/ajax.php';
-	   		// new AjaxRequests();
+	   		include_once $this->dirname.'/assets/backend/ajax/ajax.php';
+	   		new AdminAjaxRequests();
 	   	}
+
 
 	   	public function register_api_routes(){
 			include_once $this->dirname.'/includes/register_api.php';

@@ -106,20 +106,28 @@
 
 
 /* Message Box */
-
-.messenger-container ul.messenger-container__users {
+.dark-mode.messenger-container ul.messenger-container__users {
   background: #282828;
   color: #fff;
+}
+
+
+.dark-mode.messenger-container ul.messenger-container__users{
+  border: none;
+}
+
+.messenger-container ul.messenger-container__users {
   padding: 0;
   margin: 0;
   list-style: none;
   height: 100%;
   overflow-y: auto;
   max-height: 605px;
+  border: 1px solid #D8D5D8;
 }
 .messenger-container ul.messenger-container__users > li {
   transition: 0.5s;
-  border-bottom: 1px solid #8A8D91;
+  border-bottom: 1px solid #D8D5D8;
 }
 .messenger-container ul.messenger-container__users > li a.socket-open-message {
   width: 100%;
@@ -144,16 +152,23 @@
   background: #D6908A;
   color: #000;
 }
+
+/*Dark mode*/
+.dark-mode.messenger-container ul.messenger-container__conversation {
+  background: #111;
+  border: none;
+}
+
 .messenger-container ul.messenger-container__conversation {
   padding: 10px;
   margin: 0;
   list-style: none;
-  background: #1E1E1E;
   width: 100%;
   height: 100%;
   overflow-y: auto;
   height: 500px;
   word-break: break-all;
+  border: 1px solid #D8D5D8;
 }
 .messenger-container ul.messenger-container__conversation.loader::before {
   content: 'Loading Conversation...';
@@ -170,39 +185,58 @@
   align-items: center;
   color: #fff;
 }
+
 .messenger-container ul.messenger-container__conversation > li.text-left .message-aligner {
   background: #D6908A;
-  color: #000;
-}
-.messenger-container ul.messenger-container__conversation > li .message-aligner {
-  background: #2D2D30;
   color: #fff;
+}
+
+.dark-mode.messenger-container ul.messenger-container__conversation > li.text-right .message-aligner {
+  background: #777;
+  color: #fff;
+}
+
+.messenger-container ul.messenger-container__conversation > li .message-aligner {
+  background: #efefef;
+  color: #000;
   border-radius: 20px;
   display: inline-block;
   padding: 5px 10px;
   margin-bottom: 5px;
-  font-weight: bold;
 }
 
 
 /* Classes */
+
+.dark-mode.messenger-container ul.messenger-container__conversation li.start-conversation-label{
+  color: #fff;
+}
+
 ul.messenger-container__conversation li.start-conversation-label{
   display: flex;
   height: 100%;
   align-items: center;
   justify-content: center;
-  color: #fff;
 }
 
 /* Input */
+.dark-mode.messenger-container .send-message-container{
+  background: #111;
+  border: none;
+}
 .send-message-container{
-  background: #1E1E1E;
   padding: 10px;
+  border: 1px solid #D8D5D8;
+  border-top: none;
+}
+
+.dark-mode.messenger-container .send-message-container input[type="text"]{
+  color: #fff;
 }
 .send-message-container input[type="text"]{
   background: transparent;
-  color: #fff;
 }
+
 
 /*Scollbar style*/
 

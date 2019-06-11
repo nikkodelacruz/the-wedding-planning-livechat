@@ -25,13 +25,22 @@
 // );
 
 // Add submenu to post type
+add_submenu_page(
+	'edit.php?post_type=messages-list', 
+	'Conversations', 
+	'Conversations', 
+	'manage_options', 
+	'conversation-list',
+	function() { include_once $this->dirname.'/templates/conversation-list.php'; }
+);
+
 // add_submenu_page(
-// 	'conversations-page', 
-// 	'Message Settings', 
-// 	'Settings', 
+// 	'edit.php?post_type=messages-list', 
+// 	'Supplier Conversations', 
+// 	'Supplier Conversations', 
 // 	'manage_options', 
-// 	'conversation-settings',
-// 	function() { include_once $this->dirname.'/templates/conversation_settings.php'; }
+// 	'supplier-conversation-settings',
+// 	function() { include_once $this->dirname.'/templates/supplier_conversations.php'; }
 // );
 
 // ACF subpage
